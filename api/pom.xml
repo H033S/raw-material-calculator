@@ -11,7 +11,7 @@
 	<groupId>edu.fiu.hackathon</groupId>
 	<artifactId>material_calculator</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>material_calculator</name>
+	<name>application</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
