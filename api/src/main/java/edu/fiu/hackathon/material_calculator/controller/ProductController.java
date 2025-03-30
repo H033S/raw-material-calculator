@@ -3,6 +3,7 @@ package edu.fiu.hackathon.material_calculator.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import edu.fiu.hackathon.material_calculator.dto.ProductReponseDTO;
 import edu.fiu.hackathon.material_calculator.model.Product;
 import edu.fiu.hackathon.material_calculator.service.ProductService;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class ProductController {
 
@@ -35,7 +37,7 @@ public class ProductController {
     @GetMapping("/product/{id}")
     ResponseEntity<ProductReponseDTO> getProduct(@PathVariable Long id) {
 
-        final ProductReponseDTO response = ProductReponseDTO .fromEntity(productService.getProductById(id));
+        final ProductReponseDTO response = ProductReponseDTO.fromEntity(productService.getProductById(id));
         return ResponseEntity.ok(response);
     }
 
