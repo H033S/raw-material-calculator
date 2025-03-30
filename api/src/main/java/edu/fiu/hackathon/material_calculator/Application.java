@@ -19,7 +19,8 @@ public class Application implements CommandLineRunner {
     private final ProductItemService productItemService;
     private final ProductService productService;
 
-    public Application(RawMaterialService rawMaterialService, ProductItemService productItemService, ProductService productService) {
+    public Application(RawMaterialService rawMaterialService, ProductItemService productItemService,
+            ProductService productService) {
         this.rawMaterialService = rawMaterialService;
         this.productItemService = productItemService;
         this.productService = productService;
@@ -48,8 +49,7 @@ public class Application implements CommandLineRunner {
                 new RawMaterial("Basil"),
                 new RawMaterial("Chicken"),
                 new RawMaterial("Pepper"),
-                new RawMaterial("Mushrooms")
-        ));
+                new RawMaterial("Mushrooms")));
 
         // Create Product Items with actual units of measure and quantities
         List<ProductItem> productItems = productItemService.saveAllProductItems(List.of(
@@ -67,8 +67,7 @@ public class Application implements CommandLineRunner {
                 new ProductItem("leaves", 5.0, findRawMaterial(ingredients, "Basil")),
                 new ProductItem("g", 200.0, findRawMaterial(ingredients, "Chicken")),
                 new ProductItem("g", 5.0, findRawMaterial(ingredients, "Pepper")),
-                new ProductItem("g", 100.0, findRawMaterial(ingredients, "Mushrooms"))
-        ));
+                new ProductItem("g", 100.0, findRawMaterial(ingredients, "Mushrooms"))));
 
         // Map product items to products
         List<Product> products = productService.saveAllProducts(List.of(
@@ -79,25 +78,22 @@ public class Application implements CommandLineRunner {
                         findProductItem(productItems, "Butter"),
                         findProductItem(productItems, "Eggs"),
                         findProductItem(productItems, "Milk"),
-                        findProductItem(productItems, "Yeast")
-                )),
+                        findProductItem(productItems, "Yeast"))),
                 new Product("Pizza", Set.of(
                         findProductItem(productItems, "Flour"),
                         findProductItem(productItems, "Cheese"),
                         findProductItem(productItems, "Olive Oil"),
                         findProductItem(productItems, "Salt"),
-                        findProductItem(productItems, "Basil")
-                )),
+                        findProductItem(productItems, "Basil"))),
                 new Product("Pasta", Set.of(
                         findProductItem(productItems, "Flour"),
                         findProductItem(productItems, "Chicken"),
                         findProductItem(productItems, "Garlic"),
                         findProductItem(productItems, "Pepper"),
-                        findProductItem(productItems, "Mushrooms")
-                ))
-        ));
+                        findProductItem(productItems, "Mushrooms")))));
 
-        System.out.println("Products and their ingredients (with units and quantities) have been successfully saved in the database!");
+        System.out.println(
+                "Products and their ingredients (with units and quantities) have been successfully saved in the database!");
     }
 
     // Helper method to find RawMaterial by name
