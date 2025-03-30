@@ -15,4 +15,6 @@ public interface RawMaterialService {
     void deleteRawMaterial(Long id);
 
     void updateRawMaterial(Long id, RawMaterial toUpdate);
+
+    List<RawMaterial> saveAllRawMaterials(List<RawMaterial> rawMaterials);
 }

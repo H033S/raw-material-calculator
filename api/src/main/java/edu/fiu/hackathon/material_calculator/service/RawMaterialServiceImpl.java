@@ -1,13 +1,11 @@
 package edu.fiu.hackathon.material_calculator.service;
 
-import java.util.List;
-import java.util.Optional;
-
 import edu.fiu.hackathon.material_calculator.exception.RawMaterialNotFoundException;
-import org.springframework.stereotype.Service;
-
 import edu.fiu.hackathon.material_calculator.model.RawMaterial;
 import edu.fiu.hackathon.material_calculator.repository.RawMaterialRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * RawMaterialServiceImpl
@@ -55,6 +53,11 @@ public class RawMaterialServiceImpl implements RawMaterialService {
         RawMaterial materialToUpdate = getRawMaterialById(id);
         materialToUpdate.setName(toUpdate.getName());
         rawMaterialRepository.save(materialToUpdate);
+    }
+
+    @Override
+    public List<RawMaterial> saveAllRawMaterials(List<RawMaterial> rawMaterials) {
+        return rawMaterialRepository.saveAll(rawMaterials);
     }
 
 }
