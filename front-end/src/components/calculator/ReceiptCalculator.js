@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { styles } from "./styles";
-import { PRODUCT_TEMPLATES } from "./db";
+import ProductService from "./db";
 
 export const ReceiptCalculator = () => {
+  // State for product templates
+  const [productsTemplates, setProductTemplates] = useState([]);
   // State for recipes
   const [recipes, setRecipes] = useState([]);
 
@@ -17,23 +19,49 @@ export const ReceiptCalculator = () => {
   const [activeIngredientModal, setActiveIngredientModal] = useState(null);
   const [activeResultModal, setActiveResultModal] = useState(null);
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const productService = new ProductService();
+      const products = await productService.getAllProducts();
+      setProductTemplates(products);
+    };
+
+    fetchProducts();
+  }, []);
+
   // Generate next ID for a new recipe
   const getNextRecipeId = () => {
     return recipes.length ? Math.max(...recipes.map((r) => r.id)) + 1 : 1;
   };
 
   // Generate next ID for a new ingredient in a recipe
-  const getNextIngredientId = (ingredients) => {
-    return ingredients.length
-      ? Math.max(...ingredients.map((i) => i.id)) + 1
-      : 1;
-  };
+  const getNextIngredientId = (ingredients) => {};
 
   // Add a new custom recipe
   const addCustomRecipe = () => {};
 
   // Add a recipe from template
-  const addTemplateRecipe = () => {};
+  const addTemplateRecipe = () => {
+    if (!selectedTemplate) return;
+
+    const template = productsTemplates.find((t) => t.name === selectedTemplate);
+    if (!template) return;
+
+    const newId = getNextRecipeId();
+    const newRecipe = {
+      id: newId,
+      name: template.name,
+      productItems: template.productItems.map((ingredient, index) => ({
+        id: index + 1,
+        name: ingredient.name,
+        quantity: ingredient.quantity,
+        unit: ingredient.unit,
+      })),
+    };
+
+    setRecipes([...recipes, newRecipe]);
+    setSelectedTemplate("");
+  };
 
   // Remove a recipe
   const removeRecipe = (recipeId) => {};
@@ -106,9 +134,10 @@ export const ReceiptCalculator = () => {
                     onChange={(e) => setSelectedTemplate(e.target.value)}
                   >
                     <option value="">-- Select a product --</option>
-                    {PRODUCT_TEMPLATES.map((template) => (
+
+                    {productsTemplates.map((template) => (
                       <option key={template.name} value={template.name}>
-                        {template.name} (Serves {template.originalServings})
+                        {template.name}
                       </option>
                     ))}
                   </select>
