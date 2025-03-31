@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { styles } from "./styles";
-import ProductService from "./db";
+import ProductService from "./ProductService";
+import ResultsModal from "../modals/Results";
+import IngredientsModal from "../modals/ingredients";
 
 export const ReceiptCalculator = () => {
   // State for product templates
@@ -64,7 +66,9 @@ export const ReceiptCalculator = () => {
   };
 
   // Remove a recipe
-  const removeRecipe = (recipeId) => {};
+  const removeRecipe = (recipeId) => {
+    setRecipes(recipes.filter(recipe => recipe.id !== recipeId));
+  };
 
   // Update recipe information
   const updateRecipe = (recipeId, field, value) => {};
@@ -490,6 +494,29 @@ export const ReceiptCalculator = () => {
             </div>
           )}
         </div>
+      )}
+      {/* Ingredients Modal */}
+      {activeIngredientModal && (
+        <IngredientsModal
+          show={Boolean(activeIngredientModal)}
+          onClose={() => setActiveIngredientModal(null)}
+          recipe={getActiveRecipe(activeIngredientModal)}
+          updateIngredient={updateIngredient}
+          addIngredient={addIngredient}
+          removeIngredient={removeIngredient}
+          styles={styles}
+        />
+      )}
+      
+      {/* Results Modal */}
+      {activeResultModal && (
+        <ResultsModal
+          show={Boolean(activeResultModal)}
+          onClose={() => setActiveResultModal(null)}
+          recipe={getActiveRecipe(activeResultModal)}
+          getScaledQuantity={getScaledQuantity}
+          styles={styles}
+        />
       )}
     </div>
   );
