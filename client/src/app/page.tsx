@@ -1,11 +1,11 @@
 "use client";
 
-import Navbar from './components/Navbar';
+import NavbarComponent from './components/NavbarComponent';
 
 export default function Home() {
   return (
     <div>
-      <Navbar />
+      <NavbarComponent />
     </div>
   );
 }

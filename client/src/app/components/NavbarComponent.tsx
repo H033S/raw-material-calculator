@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import UserProfileComponent from './UserProfileComponent';
 
-const Navbar = () => {
+const NavbarComponent = () => {
   useEffect(() => {
     require('bootstrap/dist/js/bootstrap.bundle.min.js');
   }, []);
@@ -52,4 +52,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar; 
+export default NavbarComponent; 
