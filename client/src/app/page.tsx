@@ -1,8 +1,11 @@
 "use client";
 
 import { useEffect } from 'react';
-
+import UserProfileComponent from './components/UserProfileComponent';
 export default function Home() {
+  useEffect(() => {
+    require('bootstrap/dist/js/bootstrap.bundle.min.js');
+  }, []);
 
   return (
     <div>
@@ -42,6 +45,7 @@ export default function Home() {
               </li>
             </ul>
           </div>
+          <UserProfileComponent />
         </div>
       </nav>
     </div>
