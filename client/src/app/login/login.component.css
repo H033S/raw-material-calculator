@@ -1,0 +1,16 @@
+/*- #E9DCCD*/
+/*- #E3BAB3*/
+/*- #613A43*/
+/*- #849974*/
+/*- #36384C*/
+
+form {
+  width: 50%;
+  height: 50%;
+  background-color: #36384C;
+  color: #E9DCCD;
+
+  h1 {
+    text-align: center;
+  }
+}
