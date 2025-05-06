@@ -1,0 +1,11 @@
+
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_USER: sa
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: material-calculator-db
