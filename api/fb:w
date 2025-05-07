@@ -29,14 +29,15 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest login) {
+        System.out.println("hey there");
 
-        this.logger.debug("About to authenticate " + login.email());
+        this.logger.trace("Entering Login for username " + login.username());
         Authentication authenticationRequest = UsernamePasswordAuthenticationToken.unauthenticated(
-                login.email(),
+                login.username(),
                 login.password());
 
         Authentication authenticationResponse = this.authenticationManager.authenticate(authenticationRequest);
-        this.logger.debug("User is authenticated " + authenticationResponse.getPrincipal() + " is now authenticated");
+        this.logger.info("User " + authenticationResponse.getPrincipal() + " is now authenticated");
 
         return ResponseEntity.ok().build();
     }
