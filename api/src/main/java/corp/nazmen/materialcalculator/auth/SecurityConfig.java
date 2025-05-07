@@ -1,4 +1,4 @@
-package corp.nazmen.materialcalculator.common;
+package corp.nazmen.materialcalculator.auth;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

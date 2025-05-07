@@ -30,13 +30,13 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest login) {
 
-        this.logger.debug("About to authenticate " + login.email());
+        this.logger.trace("About to authenticate " + login.email());
         Authentication authenticationRequest = UsernamePasswordAuthenticationToken.unauthenticated(
                 login.email(),
                 login.password());
 
         Authentication authenticationResponse = this.authenticationManager.authenticate(authenticationRequest);
-        this.logger.debug("User is authenticated " + authenticationResponse.getPrincipal() + " is now authenticated");
+        this.logger.trace("User is authenticated " + authenticationResponse.getPrincipal() + " is now authenticated");
 
         return ResponseEntity.ok().build();
     }
