@@ -19,6 +19,7 @@ PRIVATE_KEY_PATH="$DEST/private.pem"
 openssl genrsa -out "$KEY_PAIR_PATH" 2048 \
 && openssl rsa -in "$KEY_PAIR_PATH" -pubout -out "$PUBLIC_KEY_PATH" \
 && openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in "$KEY_PAIR_PATH" -out "$PRIVATE_KEY_PATH" \
+&& rm "$KEY_PAIR_PATH" \
 && ls -l "$DEST"
 
 
