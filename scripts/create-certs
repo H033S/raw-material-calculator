@@ -1,0 +1,24 @@
+#!/bin/bash
+
+DEST="$(dirname $PWD)/api/src/main/resources/certs"
+
+if ! command -v openssl >/dev/null; then
+    echo "Openssl command wasnt found"
+    exit 0
+fi
+
+if ! [ -d "$DEST" ]; then
+    echo "Failed finding folder $DEST"
+    exit 0
+fi
+
+KEY_PAIR_PATH="$DEST/keypair.pem"
+PUBLIC_KEY_PATH="$DEST/public.pem"
+PRIVATE_KEY_PATH="$DEST/private.pem"
+
+openssl genrsa -out "$KEY_PAIR_PATH" 2048 \
+&& openssl rsa -in "$KEY_PAIR_PATH" -pubout -out "$PUBLIC_KEY_PATH" \
+&& openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in "$KEY_PAIR_PATH" -out "$PRIVATE_KEY_PATH" \
+&& ls -l "$DEST"
+
+
