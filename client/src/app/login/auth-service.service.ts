@@ -14,7 +14,8 @@ export class LoginService {
   private http = inject(HttpClient);
 
   submitCredentials(loginRequest: LoginCredentials) {
-    console.log('Environment ' + environment.API_BASE_URL);
+
+    console.debug(`Preparing to make request for user: ${loginRequest.email}`)
     this.http
       .post(`${environment.API_BASE_URL}/api/v1/auth/login`, loginRequest,
         {
@@ -26,8 +27,15 @@ export class LoginService {
           observe: 'response',
         })
       .subscribe((res) => {
-        console.log('Response status ', res.status);
-        console.log('Response body ', res.body);
+        const token = res.body;
+        if (token) {
+          localStorage.setItem(loginRequest.email, token)
+        } else {
+
+          console.error("Token was not provided in response")
+          throw new Error("Token was not provided in response")
+        }
+
       });
   }
 }
