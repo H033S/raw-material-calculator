@@ -22,23 +22,25 @@ public class AuthController {
 
     private final Logger logger = LoggerFactory.getLogger(AuthController.class.getName());
     private final AuthenticationManager authenticationManager;
+    private final TokenService tokenService;
 
-    public AuthController(AuthenticationManager authenticationManager) {
+    public AuthController(AuthenticationManager authenticationManager, TokenService tokenService) {
         this.authenticationManager = authenticationManager;
+        this.tokenService = tokenService;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest login) {
+    public ResponseEntity<String> login(@RequestBody LoginRequest login) {
 
-        this.logger.trace("About to authenticate " + login.email());
+        this.logger.trace("About to authenticate {}", login.email());
         Authentication authenticationRequest = UsernamePasswordAuthenticationToken.unauthenticated(
                 login.email(),
                 login.password());
 
         Authentication authenticationResponse = this.authenticationManager.authenticate(authenticationRequest);
-        this.logger.trace("User is authenticated " + authenticationResponse.getPrincipal() + " is now authenticated");
+        this.logger.trace("User is authenticated {} is now authenticated", authenticationResponse.getPrincipal());
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(tokenService.generateToken(authenticationResponse));
     }
 
 }
