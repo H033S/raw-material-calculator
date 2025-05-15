@@ -1,6 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
+import {map, Observable} from 'rxjs';
 
 export interface LoginCredentials {
   email: string;
@@ -10,7 +11,7 @@ export interface LoginCredentials {
 @Injectable({
   providedIn: 'root',
 })
-export class LoginService {
+export class AuthService {
   private http = inject(HttpClient);
 
   submitCredentials(loginRequest: LoginCredentials) {
@@ -29,6 +30,7 @@ export class LoginService {
       .subscribe((res) => {
         const token = res.body;
         if (token) {
+
           localStorage.setItem(loginRequest.email, token)
         } else {
 
@@ -37,5 +39,21 @@ export class LoginService {
         }
 
       });
+  }
+
+  submitForgotPasswordRequest(email: String): Observable<boolean> {
+
+    return this.http
+      .post(`${environment.API_BASE_URL}/api/v1/auth/forgot-password`, {"email": email},
+        {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            Accept: 'application/json',
+          },
+          observe: 'response',
+        })
+      .pipe(
+        map(resp => resp.status === 204)
+      )
   }
 }

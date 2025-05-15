@@ -43,4 +43,11 @@ public class AuthController {
         return ResponseEntity.ok(tokenService.generateToken(authenticationResponse));
     }
 
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Void> forgotPassword(@RequestBody String email) {
+
+        this.logger.trace("About to forgot-password {}", email);
+        return ResponseEntity.noContent().build();
+    }
+
 }
