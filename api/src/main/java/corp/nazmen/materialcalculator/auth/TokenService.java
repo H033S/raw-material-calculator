@@ -8,19 +8,24 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 public class TokenService {
 
     private final JwtEncoder jwtEncoder;
+    private final EmailConfirmationTokenRepository emailConfirmationTokenRepository;
 
-    public TokenService(JwtEncoder jwtEncoder) {
+    public TokenService(JwtEncoder jwtEncoder, EmailConfirmationTokenRepository emailConfirmationTokenRepository) {
         this.jwtEncoder = jwtEncoder;
+        this.emailConfirmationTokenRepository = emailConfirmationTokenRepository;
     }
 
-    public String generateToken(Authentication authentication) {
+    public String generateJwtToken(Authentication authentication) {
 
         Instant now = Instant.now();
         String scope = authentication.getAuthorities()
@@ -36,5 +41,22 @@ public class TokenService {
                 .build();
 
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+    }
+
+    public EmailConfirmationToken generateEmailConfirmationToken(String email) {
+
+        String token = UUID.randomUUID().toString();
+        final EmailConfirmationToken confirmationToken = new EmailConfirmationToken(
+                token,
+                email,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(5)
+        );
+
+        return emailConfirmationTokenRepository.save(confirmationToken);
+    }
+
+    public Optional<EmailConfirmationToken> getEmailConfirmationToken(String email, String token){
+        return emailConfirmationTokenRepository.findByEmailAndToken(email, token);
     }
 }
