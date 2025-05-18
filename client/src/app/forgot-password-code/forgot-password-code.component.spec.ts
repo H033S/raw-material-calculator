@@ -8,9 +8,8 @@ describe('ForgotPasswordCodeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ForgotPasswordCodeComponent]
-    })
-    .compileComponents();
+      imports: [ForgotPasswordCodeComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ForgotPasswordCodeComponent);
     component = fixture.componentInstance;

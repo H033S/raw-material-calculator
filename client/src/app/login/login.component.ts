@@ -1,9 +1,9 @@
-import {Component, inject} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {faFacebook, faGoogle} from '@fortawesome/free-brands-svg-icons';
-import {AuthService, LoginCredentials} from './auth-service.service';
-import {RouterLink, RouterLinkActive} from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { AuthService, LoginCredentials } from './auth-service.service';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -23,8 +23,7 @@ export class LoginComponent {
   submitted = false;
 
   onSubmit() {
-
-    console.debug("Submitting form");
+    console.debug('Submitting form');
     this.submitted = true;
     this.authService.submitCredentials(this.credentials);
   }
