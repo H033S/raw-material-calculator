@@ -40,7 +40,7 @@ export class AuthService {
     return this.http
       .post(
         `${environment.API_BASE_URL}/api/v1/auth/forgot-password`,
-        { email: email },
+        email,
         {
           headers: {
             'Access-Control-Allow-Origin': '*',
