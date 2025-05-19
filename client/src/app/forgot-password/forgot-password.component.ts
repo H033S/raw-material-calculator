@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../login/auth-service.service';
 import { Router } from '@angular/router';
-import { AlertComponent, AlertType } from '../core/alert/alert.component';
+import { AlertComponent, AlertType } from '../core/components/alert/alert.component';
 
 @Component({
   selector: 'app-forgot-password',
