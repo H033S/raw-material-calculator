@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 
 export interface LoginCredentials {
   email: string;
@@ -21,7 +21,7 @@ export class AuthService {
         responseType: 'text',
         headers: {
           'Access-Control-Allow-Origin': '*',
-          Accept: 'application/json',
+          'Accept': 'application/json',
         },
         observe: 'response',
       })
@@ -38,17 +38,16 @@ export class AuthService {
 
   submitForgotPasswordRequest(email: String): Observable<boolean> {
     return this.http
-      .post(
-        `${environment.API_BASE_URL}/api/v1/auth/forgot-password`,
-        email,
-        {
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            Accept: 'application/json',
-          },
-          observe: 'response',
+      .post(`${environment.API_BASE_URL}/api/v1/auth/forgot-password`, email, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Accept': 'application/json',
         },
-      )
-      .pipe(map((resp) => resp.status === 204));
+        observe: 'response',
+      })
+      .pipe(
+        map((resp) => resp.status === 204),
+        catchError(() => of(false))
+      );
   }
 }
