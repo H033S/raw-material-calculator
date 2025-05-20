@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { AlertComponent } from './core/alert/alert.component';
-import { ApplicationConfig } from '@angular/core';
 
 describe('AppComponent', () => {
   let component: AppComponent;
