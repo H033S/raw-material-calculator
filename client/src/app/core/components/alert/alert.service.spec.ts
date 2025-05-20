@@ -1,4 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 
 import {
   AlertConfig,
@@ -52,20 +57,23 @@ describe('AlertService', () => {
     AlertType.DARK,
   ];
   alertTypes.forEach((alertType) => {
-    it(`should change when service creates an alert: ${alertType}`, () => {
+    it(`should change when service creates an alert: ${alertType}`, fakeAsync(() => {
       //arrange
-      component.isAlertHidden = false;
+      component.isAlertHidden = true;
       component.alertMessage = '';
       component.alertType = alertType;
       fixture.detectChanges();
       const TEST_MESSAGE = 'Success Alert Message';
       //action
       service.alert(component, new AlertConfig(alertType, TEST_MESSAGE, 3000));
-      fixture.detectChanges();
       //assert
       expect(component.alertMessage).toEqual(TEST_MESSAGE);
       expect(component.alertType).toEqual(alertType);
+      expect(component.isAlertHidden).toBeFalse();
+
+      tick(3000);
+
       expect(component.isAlertHidden).toBeTrue();
-    });
+    }));
   });
 });

@@ -10,9 +10,9 @@ export class AlertService {
   alert(component: IAlertableComponent, alertConfig: AlertConfig) {
     component.alertMessage = alertConfig.alertMessage;
     component.alertType = alertConfig.alertType;
-    component.isAlertHidden = true;
+    component.isAlertHidden = false;
 
-    setTimeout(() => (component.isAlertHidden = false), alertConfig.duration);
+    setTimeout(() => (component.isAlertHidden = true), alertConfig.duration);
   }
 
   alertWithSuccess(component: IAlertableComponent, message: String) {
