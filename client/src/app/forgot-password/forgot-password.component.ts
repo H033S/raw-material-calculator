@@ -1,8 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../login/auth-service.service';
-import { Router } from '@angular/router';
-import { AlertComponent, AlertType } from '../core/components/alert/alert.component';
+import {
+  AlertComponent,
+  AlertType,
+} from '../core/components/alert/alert.component';
+import {
+  AlertService,
+  IAlertableComponent,
+} from '../core/components/alert/alert.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -11,12 +17,15 @@ import { AlertComponent, AlertType } from '../core/components/alert/alert.compon
   styleUrl: './forgot-password.component.css',
   providers: [AuthService],
 })
-export class ForgotPasswordComponent implements OnInit {
+export class ForgotPasswordComponent implements OnInit, IAlertableComponent {
   submitted: boolean = false;
   email: string = '';
   authService: AuthService = inject(AuthService);
+  alertMessage: String = '';
+  alertType: AlertType = AlertType.PRIMARY;
+  isAlertHidden: boolean = true;
 
-  constructor(private router: Router) {}
+  constructor(private alertService: AlertService) {}
 
   ngOnInit(): void {
     this.clearAlert();
@@ -30,12 +39,16 @@ export class ForgotPasswordComponent implements OnInit {
         console.debug(`started the alert ${isPasswordRequestedSubmitted}`);
         if (isPasswordRequestedSubmitted) {
           console.debug('success with alert');
-          this.alertWithSuccess(
+          this.alertService.alertWithSuccess(
+            this,
             `Mail was sent to ${this.email} to change the password`
           );
         } else {
           console.debug('failing with alert');
-          this.alertWithFailure(`Mail was not sent to ${this.email}`);
+          this.alertService.alertWithFailure(
+            this,
+            `Mail was not sent to ${this.email}`
+          );
         }
       });
   }
@@ -44,26 +57,5 @@ export class ForgotPasswordComponent implements OnInit {
     this.alertMessage = '';
     this.alertType = AlertType.PRIMARY;
     this.isAlertHidden = true;
-  }
-
-  //Alert Stuff
-  alertMessage: String = '';
-  alertType: AlertType = AlertType.PRIMARY;
-  isAlertHidden: boolean = true;
-
-  alert(message: String, type: AlertType, duration: number) {
-    this.isAlertHidden = false;
-    this.alertMessage = message;
-    this.alertType = type;
-
-    setTimeout(() => (this.isAlertHidden = true), duration);
-  }
-
-  alertWithSuccess(message: String) {
-    this.alert(message, AlertType.SUCCESS, 3000);
-  }
-
-  alertWithFailure(message: String) {
-    this.alert(message, AlertType.DANGER, 3000);
   }
 }
