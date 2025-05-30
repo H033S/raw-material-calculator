@@ -36,6 +36,12 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql")
 }
 
+tasks.test {
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
 }
