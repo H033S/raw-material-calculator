@@ -15,9 +15,9 @@ export interface LoginCredentials {
 export class AuthService {
   private http = inject(HttpClient);
 
-  submitCredentials(loginRequest: LoginCredentials) {
+  submitCredentials(loginRequest: LoginCredentials): Observable<boolean> {
     console.debug(`Preparing to make request for user: ${loginRequest.email}`);
-    this.http
+    return this.http
       .post(`${environment.API_BASE_URL}/api/v1/auth/login`, loginRequest, {
         responseType: 'text',
         headers: {
@@ -26,16 +26,20 @@ export class AuthService {
         },
         observe: 'response',
       })
-      .subscribe((res) => {
-        const token = res.body;
-        if (token) {
-          console.debug(`Received token for user: ${loginRequest.email}`);
-          localStorage.setItem(loginRequest.email, token);
-        } else {
-          console.error('Token was not provided in response');
-          throw new Error('Token was not provided in response');
-        }
-      });
+      .pipe(
+        map((res) => {
+          const token = res.body;
+          if (token) {
+            console.debug(`Received token for user: ${loginRequest.email}`);
+            localStorage.setItem(loginRequest.email, token);
+            return true;
+          } else {
+            console.error('Token was not provided in response');
+            return false;
+          }
+        }),
+        catchError(() => of(false))
+      );
   }
 
   submitForgotPasswordRequest(email: String): Observable<boolean> {
@@ -53,7 +57,9 @@ export class AuthService {
       );
   }
 
-  submitForgotPasswordCodeRequest(forgotPasswordCodeRequest: ForgotPasswordCodeRequest) {
+  submitForgotPasswordCodeRequest(
+    forgotPasswordCodeRequest: ForgotPasswordCodeRequest
+  ) {
     return this.http
       .post(
         `${environment.API_BASE_URL}/api/v1/auth/forgot-password-code`,

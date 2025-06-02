@@ -6,32 +6,39 @@
   >
     <h1>Login</h1>
     <!-- Email input -->
-    <div data-mdb-input-init class="form-outline mb-4">
-      <label class="form-label" for="email">Email address</label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        class="form-control"
-        placeholder="Enter Email Address"
-        required
-        email
-        [(ngModel)]="credentials.email"
-      />
+    <div class="novalidate mb-4">
+      <div class="input-group">
+        <input
+          type="email"
+          id="email"
+          name="email"
+          class="form-control"
+          placeholder="Enter Email Address"
+          required
+          email
+          [class.is-valid]="email.valid && email.dirty"
+          [class.is-invalid]="email.invalid && email.dirty"
+          [(ngModel)]="credentials.email"
+          #email="ngModel"
+        />
+      </div>
+      <div
+        class="text-danger mt-1"
+        style="font-size: 0.75rem"
+        *ngIf="email.invalid && email.touched"
+      >
+        <div *ngIf="email.errors?.['required']">Email is Required</div>
+        <div *ngIf="email.errors?.['email']">Not a valid email</div>
+      </div>
     </div>
 
     <!-- Password input -->
     <div data-mdb-input-init class="form-outline mb-4">
-      <label class="form-label" for="password">Password</label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        class="form-control"
-        placeholder="Enter Password"
-        required
+      <app-password-input
+        [enforcedMinLength]="enforcedMinLength"
+        [enforcedPattern]="enforcedPattern"
         [(ngModel)]="credentials.password"
-      />
+      ></app-password-input>
     </div>
 
     <!-- 2 column grid layout for inline styling -->
@@ -67,3 +74,9 @@
     </div>
   </form>
 </div>
+
+<app-alert
+  [alertMessage]="alertMessage"
+  [alertType]="alertType"
+  [isAlertHidden]="isAlertHidden"
+></app-alert>
