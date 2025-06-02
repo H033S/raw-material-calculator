@@ -18,35 +18,41 @@ import java.util.stream.Collectors;
 public class TokenService {
 
     private final JwtEncoder jwtEncoder;
-    private final EmailConfirmationTokenRepository emailConfirmationTokenRepository;
+    private final EmailConfirmationTokenRepository
+            emailConfirmationTokenRepository;
 
-    public TokenService(JwtEncoder jwtEncoder, EmailConfirmationTokenRepository emailConfirmationTokenRepository) {
+    public TokenService(JwtEncoder jwtEncoder,
+                        EmailConfirmationTokenRepository emailConfirmationTokenRepository) {
         this.jwtEncoder = jwtEncoder;
-        this.emailConfirmationTokenRepository = emailConfirmationTokenRepository;
+        this.emailConfirmationTokenRepository
+                = emailConfirmationTokenRepository;
     }
 
     public String generateJwtToken(Authentication authentication) {
 
         Instant now = Instant.now();
         String scope = authentication.getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(" "));
+                                     .stream()
+                                     .map(GrantedAuthority::getAuthority)
+                                     .collect(Collectors.joining(" "));
         JwtClaimsSet claims = JwtClaimsSet.builder()
-                .issuer("self")
-                .issuedAt(now)
-                .expiresAt(now.plus(1, ChronoUnit.HOURS))
-                .subject(authentication.getName())
-                .claim("scope", scope)
-                .build();
+                                          .issuer("self")
+                                          .issuedAt(now)
+                                          .expiresAt(now.plus(1,
+                                                              ChronoUnit.HOURS))
+                                          .subject(authentication.getName())
+                                          .claim("scope", scope)
+                                          .build();
 
-        return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+        return jwtEncoder.encode(JwtEncoderParameters.from(claims))
+                         .getTokenValue();
     }
 
     public EmailConfirmationToken generateEmailConfirmationToken(String email) {
 
         String token = UUID.randomUUID().toString();
-        final EmailConfirmationToken confirmationToken = new EmailConfirmationToken(
+        final EmailConfirmationToken confirmationToken
+                = new EmailConfirmationToken(
                 token,
                 email,
                 LocalDateTime.now(),
@@ -56,7 +62,11 @@ public class TokenService {
         return emailConfirmationTokenRepository.save(confirmationToken);
     }
 
-    public Optional<EmailConfirmationToken> getEmailConfirmationToken(String email, String token){
-        return emailConfirmationTokenRepository.findByEmailAndToken(email, token);
+    public Optional<EmailConfirmationToken> getEmailConfirmationToken(String email,
+                                                                      String token) {
+        var optToken = emailConfirmationTokenRepository.findByEmailAndToken(
+                email,
+                token);
+        return optToken;
     }
 }

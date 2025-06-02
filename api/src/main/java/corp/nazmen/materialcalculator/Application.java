@@ -8,10 +8,10 @@ import corp.nazmen.materialcalculator.auth.RsaKeyProperties;
 
 @EnableConfigurationProperties(RsaKeyProperties.class)
 @SpringBootApplication
-public class MaterialcalculatorApplication {
+public class Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(MaterialcalculatorApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 
 }

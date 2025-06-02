@@ -44,13 +44,15 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws
+                                                                      Exception {
         http
                 .authorizeHttpRequests(
                         authorize -> authorize
                                 .anyRequest().permitAll())
                 .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session.sessionCreationPolicy(
+                        SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
                 .httpBasic(Customizer.withDefaults());
 
@@ -63,18 +65,18 @@ public class SecurityConfig {
             UserDetailsService userDetailsService,
             PasswordEncoder passwordEncoder) {
 
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        DaoAuthenticationProvider authenticationProvider
+                = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder);
 
-        this.logger.debug("authentication provider bean is created");
         return new ProviderManager(authenticationProvider);
     }
 
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails userDetails = User
-                .withUsername("user@mail.com")
+                .withUsername("tonito.nazco@gmail.com")
                 .password("{noop}password")
                 .roles("USER")
                 .build();
