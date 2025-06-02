@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../login/auth-service.service';
+import { AuthService } from '../core/auth/auth-service.service';
 import {
   AlertComponent,
   AlertType,

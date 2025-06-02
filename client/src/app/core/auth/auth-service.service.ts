@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { catchError, map, Observable, of } from 'rxjs';
+import { ForgotPasswordCodeRequest } from '../../forgot-password-code/forgot-password-code.component';
 
 export interface LoginCredentials {
   email: string;
@@ -28,6 +29,7 @@ export class AuthService {
       .subscribe((res) => {
         const token = res.body;
         if (token) {
+          console.debug(`Received token for user: ${loginRequest.email}`);
           localStorage.setItem(loginRequest.email, token);
         } else {
           console.error('Token was not provided in response');
@@ -45,6 +47,25 @@ export class AuthService {
         },
         observe: 'response',
       })
+      .pipe(
+        map((resp) => resp.status === 204),
+        catchError(() => of(false))
+      );
+  }
+
+  submitForgotPasswordCodeRequest(forgotPasswordCodeRequest: ForgotPasswordCodeRequest) {
+    return this.http
+      .post(
+        `${environment.API_BASE_URL}/api/v1/auth/forgot-password-code`,
+        forgotPasswordCodeRequest,
+        {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Accept': 'application/json',
+          },
+          observe: 'response',
+        }
+      )
       .pipe(
         map((resp) => resp.status === 204),
         catchError(() => of(false))

@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ForgotPasswordComponent } from './forgot-password.component';
 import { RouterModule } from '@angular/router';
 import { routes } from '../app.routes';
-import { AuthService } from '../login/auth-service.service';
+import { AuthService } from '../core/auth/auth-service.service';
 import { HttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 

@@ -6,7 +6,7 @@ import { ForgotPasswordCodeComponent } from './forgot-password-code/forgot-passw
 
 export const routes: Routes = [
   { path: '', component: AppComponent },
+  { path: 'auth/login', component: LoginComponent },
   { path: 'auth/forgot-password', component: ForgotPasswordComponent },
   { path: 'auth/forgot-password-code', component: ForgotPasswordCodeComponent },
-  { path: 'auth/login', component: LoginComponent },
 ];
