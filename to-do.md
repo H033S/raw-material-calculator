@@ -1,3 +1,5 @@
-- Create a Label
-- Create an Input
-- Create a Button
+- [ ] update login component to use password-input component
+- [ ] update login component to use oauth google
+- [ ] update login component to use oauth facebook
+- [ ] create logout component
+- [ ] update tab sequence in Forgot Password Component
