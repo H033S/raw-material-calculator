@@ -1,5 +1,5 @@
-- [ ] update login component to use password-input component
-- [ ] update login component to use oauth google
+- [x] update login component to use password-input component
+- [x] update login component to use oauth google
 - [ ] update login component to use oauth facebook
 - [ ] create logout component
 - [ ] update tab sequence in Forgot Password Component
