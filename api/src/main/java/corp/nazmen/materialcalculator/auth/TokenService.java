@@ -36,7 +36,7 @@ public class TokenService {
                                      .map(GrantedAuthority::getAuthority)
                                      .collect(Collectors.joining(" "));
         JwtClaimsSet claims = JwtClaimsSet.builder()
-                                          .issuer("self")
+                                          .issuer("https://rawmaterial.com")
                                           .issuedAt(now)
                                           .expiresAt(now.plus(1,
                                                               ChronoUnit.HOURS))
